@@ -1,7 +1,8 @@
 from fasthtml.common import *
-import markdown
+from monsterui.all import render_md
 import os
 from datetime import datetime
+
 
 # Initialize the FastHTML app
 app, rt = fast_app()
@@ -12,6 +13,7 @@ def base_template(page_title, content):
         Head(
             Title(page_title),
             Link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css")
+
         ),
         Body(
             Div(
@@ -69,12 +71,12 @@ def get(filename: str):
         meta_dict = {k.strip(): v.strip().strip('"') for k, v in (line.split(":", 1) for line in metadata.splitlines() if ":" in line)}
         title = meta_dict.get("title", "Untitled")
         date = meta_dict.get("date", "Unknown Date")
-        html_content = markdown.markdown(content)
+        html_content = render_md(content)
 
     body_content = Div(
-        H2(title, cls="text-5xl font-bold mb-4"),
-        P(date, cls="text-gray-500 text-lg italic mb-6"),
-        Div(html_content, cls="prose max-w-3xl"),
+        H1(title, cls="text-5xl font-bold mb-6 leading-tight"),
+        P(date, cls="text-gray-500 text-lg italic mb-8"),
+        Div(html_content, cls="prose prose-lg max-w-3xl leading-relaxed"),
         cls="max-w-3xl w-full leading-relaxed"
     )
     return base_template(title, body_content)
