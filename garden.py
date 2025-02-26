@@ -30,7 +30,7 @@ def get_blog_posts():
                 content = f.read()
                 parts = content.split("---", 2)
                 metadata, content = (parts[1].strip(), parts[2].strip()) if len(parts) >= 2 else ("", parts[0].strip())
-                meta_dict = {k.strip(): v.strip() for k, v in (line.split(":", 1) for line in metadata.splitlines() if ":" in line)}
+                meta_dict = {k.strip(): v.strip().strip('"') for k, v in (line.split(":", 1) for line in metadata.splitlines() if ":" in line)}
                 posts.append({
                     "title": meta_dict.get("title", "Untitled"),
                     "date": meta_dict.get("date", "Unknown Date"),
@@ -54,6 +54,28 @@ def get_social_links():
         {"platform": "Medium", "url": "https://medium.com/@rsinghal757"},
     ]
 
+# Blog post reader
+@rt("/blog/<post_id>")
+def get(post_id):
+    try:
+        with open(f"blogs/{post_id}.md", "r") as f:
+            content = f.read()
+            parts = content.split("---", 2)
+            metadata, content = (parts[1].strip(), parts[2].strip()) if len(parts) >= 2 else ("", parts[0].strip())
+            meta_dict = {k.strip(): v.strip().strip('"') for k, v in (line.split(":", 1) for line in metadata.splitlines() if ":" in line)}
+            title = meta_dict.get("title", "Untitled")
+            date = meta_dict.get("date", "Unknown Date")
+            html_content = markdown.markdown(content)
+        body_content = Div(
+            H2(title, cls="text-5xl font-bold mb-4"),
+            P(date, cls="text-gray-500 text-lg italic mb-6"),
+            Div(html_content, cls="prose max-w-3xl"),
+            cls="max-w-3xl w-full leading-relaxed"
+        )
+        return base_template(title, body_content)
+    except FileNotFoundError:
+        return base_template("404", Div("Post not found", cls="text-center text-2xl"))
+
 # Homepage route
 @rt("/")
 def get():
@@ -61,6 +83,7 @@ def get():
     projects = get_projects()
     social_links = get_social_links()
     body_content = Div(
+        H3("The world is a museum of passion projects.", cls="text-xl text-center italic mb-8"),
         Div(
             H3("Rohit Singhal", cls="text-5xl font-bold text-center mb-6"),
             Div(
