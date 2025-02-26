@@ -16,7 +16,7 @@ def base_template(page_title, content):
         Body(
             Div(
                 content,
-                cls="bg-gray-100 text-gray-900 min-h-screen p-6"
+                cls="bg-[#f9f8f6] text-gray-900 min-h-screen p-12 flex justify-center font-serif"
             )
         ),
     )
@@ -62,24 +62,33 @@ def get():
     social_links = get_social_links()
     body_content = Div(
         Div(
-            H3("Rohit Singhal", cls="text-2xl font-bold"),
+            H3("Rohit Singhal", cls="text-5xl font-bold text-center mb-6"),
             Div(
-                *[A(link["platform"], href=link["url"], cls="text-blue-500 hover:underline") for link in social_links],
-                cls="flex space-x-4 mt-2"
+                *[A(link["platform"], href=link["url"], cls="text-gray-600 hover:underline mx-2") for link in social_links],
+                cls="flex justify-center space-x-6 text-lg"
             ),
-            cls="bg-white p-6 shadow rounded-lg mb-6"
+            cls="mb-12"
         ),
         Div(
-            H2("Featured Projects", cls="text-xl font-bold mb-4"),
+            H2("Featured Projects", cls="text-4xl font-semibold mb-8 text-center"),
             *[Div(
-                H3(project["title"], cls="font-semibold"),
-                P(project["description"], cls="text-gray-700"),
-                A("View Project →", href=project["link"], cls="text-blue-500 hover:underline"),
-                cls="bg-white p-4 shadow rounded-lg mb-4"
+                H3(project["title"], cls="text-2xl font-medium"),
+                P(project["description"], cls="text-gray-700 text-lg"),
+                A("View Project →", href=project["link"], cls="text-gray-600 hover:underline text-lg"),
+                cls="mb-8 border-b pb-8"
             ) for project in projects],
-            cls="mb-6"
+            cls="mb-12"
         ),
-        cls="max-w-3xl mx-auto"
+        Div(
+            H2("Recent Blog Posts", cls="text-4xl font-semibold mb-8 text-center"),
+            *[Div(
+                A(post["title"], href=f"/blog/{post['filename'].replace('.md', '')}", cls="text-2xl font-medium text-gray-600 hover:underline"),
+                P(post["summary"], cls="text-gray-700 text-lg mt-2"),
+                P(post["date"], cls="text-gray-500 text-md mt-2 italic"),
+                cls="mb-8 border-b pb-8"
+            ) for post in posts],
+        ),
+        cls="max-w-3xl w-full leading-relaxed"
     )
     return base_template("Rohit Singhal", body_content)
 
