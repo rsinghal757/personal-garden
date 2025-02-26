@@ -29,7 +29,7 @@ def get_blog_posts():
             with open(f"blogs/{filename}", "r") as f:
                 content = f.read()
                 parts = content.split("---", 2)
-                metadata, content = (parts[1].strip(), parts[2].strip()) if len(parts) >= 2 else ("", parts[0].strip())
+                metadata, content = (parts[1].strip(), parts[2].strip())
                 meta_dict = {k.strip(): v.strip().strip('"') for k, v in (line.split(":", 1) for line in metadata.splitlines() if ":" in line)}
                 posts.append({
                     "title": meta_dict.get("title", "Untitled"),
@@ -55,26 +55,30 @@ def get_social_links():
     ]
 
 # Blog post reader
-@rt("/blog/<post_id>")
-def get(post_id):
-    try:
-        with open(f"blogs/{post_id}.md", "r") as f:
-            content = f.read()
-            parts = content.split("---", 2)
-            metadata, content = (parts[1].strip(), parts[2].strip()) if len(parts) >= 2 else ("", parts[0].strip())
-            meta_dict = {k.strip(): v.strip().strip('"') for k, v in (line.split(":", 1) for line in metadata.splitlines() if ":" in line)}
-            title = meta_dict.get("title", "Untitled")
-            date = meta_dict.get("date", "Unknown Date")
-            html_content = markdown.markdown(content)
-        body_content = Div(
-            H2(title, cls="text-5xl font-bold mb-4"),
-            P(date, cls="text-gray-500 text-lg italic mb-6"),
-            Div(html_content, cls="prose max-w-3xl"),
-            cls="max-w-3xl w-full leading-relaxed"
-        )
-        return base_template(title, body_content)
-    except FileNotFoundError:
-        return base_template("404", Div("Post not found", cls="text-center text-2xl"))
+@rt("/blogs/{filename}")
+def get(filename: str):
+
+    filepath = f"blogs/{filename}"
+    if not os.path.exists(filepath):
+        return base_template("404 - Not Found", Div(H1("404 - Not Found"), cls="text-4xl font-bold text-center"))
+    
+    with open(filepath, "r") as f:
+        content = f.read()
+        parts = content.split("---", 2)
+        metadata, content = (parts[1].strip(), parts[2].strip()) if len(parts) >= 2 else ("", parts[0].strip())
+        meta_dict = {k.strip(): v.strip().strip('"') for k, v in (line.split(":", 1) for line in metadata.splitlines() if ":" in line)}
+        title = meta_dict.get("title", "Untitled")
+        date = meta_dict.get("date", "Unknown Date")
+        html_content = markdown.markdown(content)
+
+    body_content = Div(
+        H2(title, cls="text-5xl font-bold mb-4"),
+        P(date, cls="text-gray-500 text-lg italic mb-6"),
+        Div(html_content, cls="prose max-w-3xl"),
+        cls="max-w-3xl w-full leading-relaxed"
+    )
+    return base_template(title, body_content)
+
 
 # Homepage route
 @rt("/")
@@ -105,7 +109,7 @@ def get():
         Div(
             H2("Recent Blog Posts", cls="text-4xl font-semibold mb-8 text-center"),
             *[Div(
-                A(post["title"], href=f"/blog/{post['filename'].replace('.md', '')}", cls="text-2xl font-medium text-gray-600 hover:underline"),
+                A(post["title"], href=f"/blogs/{post['filename']}", cls="text-2xl font-medium text-gray-600 hover:underline"),
                 P(post["summary"], cls="text-gray-700 text-lg mt-2"),
                 P(post["date"], cls="text-gray-500 text-md mt-2 italic"),
                 cls="mb-8 border-b pb-8"
