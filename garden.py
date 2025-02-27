@@ -2,9 +2,10 @@ from fasthtml.common import *
 from monsterui.all import render_md, Slider
 import os
 from datetime import datetime
+import random
 
 # Initialize the FastHTML app
-app, rt = fast_app()
+app, rt = fast_app(live=True)
 
 ### FUNCTIONS ###
 
@@ -13,7 +14,10 @@ def base_template(page_title, content):
     return Html(
         Head(
             Title(page_title),
-            Link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css")
+            Link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/css/uikit.min.css"),
+            Script(src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit.min.js"),
+            Script(src="https://cdn.jsdelivr.net/npm/uikit@3.16.26/dist/js/uikit-icons.min.js"),
+            Link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"),
         ),
         Body(
             Div(
@@ -48,13 +52,13 @@ def get_projects():
             "title": "babyARC",
             "description": "A tiny abstraction and reasoning dataset.",
             "link": "https://github.com/rsinghal757/babyARC",
-            "images": ["assets/pebble.png", "assets/pebble.png", "assets/pebble.png"],
+            "images": ["assets/pebble.png", "assets/pebble.png", "assets/pebble.png", "assets/pebble.png", "assets/pebble.png"],
         },
         {
             "title": "SAP-1 CPU Emulator",
             "description": "A Simple As Possible (SAP-1) based CPU emulator.",
             "link": "https://github.com/rsinghal757/sap-1",
-            "images": ["assets/pebble.png", "assets/pebble.png", "assets/pebble.png"],
+            "images": ["assets/pebble.png", "assets/pebble.png", "assets/pebble.png", "assets/pebble.png", "assets/pebble.png"],
     },
     ]
 
@@ -76,13 +80,13 @@ def get():
     body_content = Div(
         Div(
             Div(
-                H1("Blog Posts", cls="text-5xl font-bold mb-6 leading-tight"),
+                H1("Blog Posts", cls="text-5xl font-serif mb-12 leading-tight"),
                 cls="flex items-baseline space-x-6"
             ),
             *[Div(
-                H3(post["title"], cls="text-2xl font-medium"),
+                H3(post["title"], cls="text-2xl font-medium font-serif"),
                 P(post["date"], cls="text-gray-500 text-lg italic mb-8"),
-                P(post["summary"], cls="text-gray-700 text-lg"),
+                P(post["summary"], cls="text-gray-700 text-lg mb-8"),
                 A("Read More →", href=f"/blogs/{post['filename']}", cls="text-gray-600 hover:underline text-lg"),
                 cls="mb-8 border-b pb-8"
             ) for post in posts],
@@ -109,7 +113,7 @@ def get(filename: str):
         html_content = render_md(content)
 
     body_content = Div(
-        H1(title, cls="text-5xl font-bold mb-6 leading-tight"),
+        H1(title, cls="text-5xl font-medium font-serif mb-12 leading-tight"),
         P(date, cls="text-gray-500 text-lg italic mb-8"),
         Div(html_content, cls="prose prose-lg max-w-7xl leading-relaxed"),
         cls="max-w-7xl w-full leading-relaxed"
@@ -124,45 +128,45 @@ def get():
     body_content = Div(
         Div(
             Div(
-                H3("Rohit Singhal", cls="text-5xl font-bold"),
+                H3("Rohit Singhal", cls="text-5xl font-bold font-serif leading-tight"),
                 Div(
-                    *[A(link["platform"], href=link["url"], cls="text-gray-600 hover:underline") for link in social_links],
-                    cls="flex space-x-8 text-gray-500"
+                    *[A(link["platform"], href=link["url"], cls="text-gray-600 font-serif hover:underline") for link in social_links],
+                    cls="flex flex-row text-gray-500 items-stretch w-full justify-between"
                 ),
-                cls="flex flex-col items-left space-y-4"
+                cls="flex flex-col items-left space-y-2"
             ),
             Div(
-                H3("The world is a museum of passion projects.", cls="text-lg italic"),
+                H3("The world is a museum of passion projects.", cls="text-gray-900 font-serif text-lg italic"),
                 Div(
-                    A("- John Collison", href="https://x.com/collision/status/1529452415346302976", cls="text-gray-500 italic text-right"),
+                    A("John Collison", href="https://x.com/collision/status/1529452415346302976", cls="text-gray-500 italic text-right"),
                     P(", Stripe", cls="text-gray-500 italic text-right"),
                     cls="flex flex-row items-end"
 
                 ),
-                cls="flex flex-col items-end space-y-1"
+                cls="flex flex-col items-end space-y-0"
             ),
-            cls="flex justify-between items-center mb-12"
+            cls="flex justify-between items-center mb-16"
         ),
         Div(
-            H2("What I'm working on", cls="text-3xl font-medium mb-8 border-b pb-8 text-left"),
+            H2("What I'm working on", cls="text-3xl font-medium font-serif border-b pb-8 text-left"),
             *[Div(
                 Div(
                     Div(
-                        H3(project["title"], cls="text-2xl font-medium"),
-                        P(project["description"], cls="text-gray-700 text-lg"),
-                        cls="flex flex-col items-left"
+                        H3(project["title"], cls="text-2xl font-medium font-serif"),
+                        P(project["description"], cls="text-gray-500 text-lg"),
+                        cls="flex flex-col items-left space-y-2"
                     ),
                     A("View Project →", href=project["link"], cls="text-gray-600 hover:underline text-lg"),
-                    cls="mb-8 flex flex-row items-stretch w-full justify-between"
+                    cls="flex flex-col items-stretch justify-between w-1/3"
                 ),
                 Slider(
-                    *[Img(src=image, cls="w-96 h-96 object-cover rounded-xl") for image in project["images"]],
-                    cls="mt-6 mb-6 w-100 flex flex-row items-stretch justify-between",
-                    items_cls="flex flex-row space-x-2",
+                    *[Img(src=image) for image in project["images"]],
+                    cls="w-2/3 h-auto rounded-lg",
+                    nav=True,
                 ),
-                cls="mb-8 border-b pb-8 flex flex-col items-left justify-between"
+                cls="border-b pb-16 pt-16 flex flex-row items-left justify-between space-x-16"
             ) for project in projects],
-            cls="mb-24"
+            cls="p-0 mb-24"
         ),
         cls="max-w-7xl w-full leading-relaxed"
     )
