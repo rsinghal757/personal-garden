@@ -39,7 +39,8 @@ def get_blog_posts():
                 posts.append({
                     "title": meta_dict.get("title", "Untitled"),
                     "date": meta_dict.get("date", "Unknown Date"),
-                    "summary": content.split("\n\n")[0] if content else "",
+                    "summary": meta_dict.get("summary", "No summary provided."),
+                    "article": content.split("\n\n")[0] if content else "",
                     "filename": filename
                 })
     return sorted(posts, key=lambda x: datetime.strptime(x["date"], "%B %d, %Y") if x["date"] != "Unknown Date" else datetime.min, reverse=True)
@@ -112,7 +113,7 @@ def get(filename: str):
         html_content = render_md(content)
 
     body_content = Div(
-        H1(title, cls="text-5xl font-medium font-serif mb-12 leading-tight"),
+        H1(title, cls="text-5xl font-medium font-serif border-b pb-12 mb-12 leading-tight"),
         P(date, cls="text-gray-500 text-lg italic mb-8"),
         Div(html_content, cls="prose prose-lg max-w-7xl leading-relaxed"),
         cls="max-w-7xl w-full leading-relaxed"
@@ -155,8 +156,8 @@ def get():
                         P(project["description"], cls="text-gray-500 text-lg"),
                         cls="flex flex-col items-left space-y-2"
                     ),
-                    A("View Project →", href=project["link"], cls="text-gray-600 hover:underline text-lg"),
-                    cls="flex flex-col items-stretch justify-between w-1/3"
+                    A("View Project →", href=project["link"], cls="text-gray-600 mt-12 hover:underline text-lg"),
+                    cls="flex flex-col items-stretch justify-between w-full"
                 ),
                 Img(src=project["image"], alt=project["title"], cls="w-2/3 rounded-lg"),
                 cls="border-b pb-16 pt-16 flex flex-row items-left justify-between space-x-16"

@@ -1,11 +1,13 @@
 ---
-title: "Why You Should Build Side Projects"
-date: "January 15, 2025"
+title: "Exploring Quantum Computing"
+date: "March 1, 2025"
+summary: "Quantum computing is poised to revolutionize computation by leveraging the principles of superposition and entanglement. Unlike classical bits, quantum bits (qubits) can exist in multiple states at once, allowing for parallel computations. In this post, we'll explore key quantum algorithms such as Shor's algorithm for factoring large numbers and Grover's search algorithm."
 ---
 
-Side projects are a great way to learn, experiment, and grow as a developer or designer. Unlike work projects, they allow you to explore ideas freely without constraints.
+Quantum computing is poised to revolutionize computation by leveraging the principles of superposition and entanglement. Unlike classical bits, quantum bits (qubits) can exist in multiple states at once, allowing for parallel computations.
 
-Here are three key benefits:
-1. Learning new technologies.
-2. Creating a portfolio of work.
-3. Potential monetization and opportunities.
+In this post, we'll explore key quantum algorithms such as Shor's algorithm for factoring large numbers and Grover's search algorithm.
+
+Quantum computing is poised to revolutionize computation by leveraging the principles of superposition and entanglement. Unlike classical bits, quantum bits (qubits) can exist in multiple states at once, allowing for parallel computations.
+
+In this post, we'll explore key quantum algorithms such as Shor's algorithm for factoring large numbers and Grover's search algorithm.

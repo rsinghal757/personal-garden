@@ -1,8 +1,13 @@
 ---
-title: "The Art of Minimalist Design"
-date: "February 20, 2025"
+title: "Exploring Quantum Computing"
+date: "March 1, 2025"
+summary: "Quantum computing is poised to revolutionize computation by leveraging the principles of superposition and entanglement. Unlike classical bits, quantum bits (qubits) can exist in multiple states at once, allowing for parallel computations. In this post, we'll explore key quantum algorithms such as Shor's algorithm for factoring large numbers and Grover's search algorithm."
 ---
 
-Minimalist design is about more than just simplicity—it's about clarity, functionality, and intentionality. The best designs remove unnecessary elements while keeping the experience intuitive.
+Quantum computing is poised to revolutionize computation by leveraging the principles of superposition and entanglement. Unlike classical bits, quantum bits (qubits) can exist in multiple states at once, allowing for parallel computations.
 
-This post covers how to apply minimalist principles in UI/UX design, including typography choices, whitespace management, and color theory.
+In this post, we'll explore key quantum algorithms such as Shor's algorithm for factoring large numbers and Grover's search algorithm.
+
+Quantum computing is poised to revolutionize computation by leveraging the principles of superposition and entanglement. Unlike classical bits, quantum bits (qubits) can exist in multiple states at once, allowing for parallel computations.
+
+In this post, we'll explore key quantum algorithms such as Shor's algorithm for factoring large numbers and Grover's search algorithm.
