@@ -1,8 +1,7 @@
 from fasthtml.common import *
-from monsterui.all import render_md, Slider
+from monsterui.all import render_md
 import os
 from datetime import datetime
-import random
 
 # Initialize the FastHTML app
 app, rt = fast_app(live=True)
@@ -52,13 +51,13 @@ def get_projects():
             "title": "babyARC",
             "description": "A tiny abstraction and reasoning dataset.",
             "link": "https://github.com/rsinghal757/babyARC",
-            "images": ["assets/pebble.png", "assets/pebble.png", "assets/pebble.png", "assets/pebble.png", "assets/pebble.png"],
+            "image": "assets/pebble.png",
         },
         {
             "title": "SAP-1 CPU Emulator",
             "description": "A Simple As Possible (SAP-1) based CPU emulator.",
             "link": "https://github.com/rsinghal757/sap-1",
-            "images": ["assets/pebble.png", "assets/pebble.png", "assets/pebble.png", "assets/pebble.png", "assets/pebble.png"],
+            "image": None,
     },
     ]
 
@@ -159,11 +158,7 @@ def get():
                     A("View Project →", href=project["link"], cls="text-gray-600 hover:underline text-lg"),
                     cls="flex flex-col items-stretch justify-between w-1/3"
                 ),
-                Slider(
-                    *[Img(src=image) for image in project["images"]],
-                    cls="w-2/3 h-auto rounded-lg",
-                    nav=True,
-                ),
+                Img(src=project["image"], alt=project["title"], cls="w-2/3 rounded-lg"),
                 cls="border-b pb-16 pt-16 flex flex-row items-left justify-between space-x-16"
             ) for project in projects],
             cls="p-0 mb-24"
