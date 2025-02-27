@@ -1,0 +1,2 @@
+MonsterUI==1.0.10
+python_fasthtml==0.12.1
