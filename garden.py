@@ -1,10 +1,12 @@
 from fasthtml.common import *
-from monsterui.all import render_md
+from monsterui.all import render_md, Slider
 import os
 from datetime import datetime
 
 # Initialize the FastHTML app
 app, rt = fast_app()
+
+### FUNCTIONS ###
 
 # Define the base HTML template using TailwindCSS
 def base_template(page_title, content):
@@ -42,8 +44,18 @@ def get_blog_posts():
 # Function to get projects
 def get_projects():
     return [
-        {"title": "babyARC", "description": "A tiny abstraction and reasoning dataset.", "link": "https://github.com/rsinghal757/babyARC", "images": ["img1.jpg", "img2.jpg", "img3.jpg"]},
-        {"title": "SAP-1 CPU Emulator", "description": "A Simple As Possible (SAP-1) based CPU emulator.", "link": "https://github.com/rsinghal757/sap-1", "images": ["img4.jpg", "img5.jpg", "img6.jpg"]},
+        {
+            "title": "babyARC",
+            "description": "A tiny abstraction and reasoning dataset.",
+            "link": "https://github.com/rsinghal757/babyARC",
+            "images": ["assets/pebble.png", "assets/pebble.png", "assets/pebble.png"],
+        },
+        {
+            "title": "SAP-1 CPU Emulator",
+            "description": "A Simple As Possible (SAP-1) based CPU emulator.",
+            "link": "https://github.com/rsinghal757/sap-1",
+            "images": ["assets/pebble.png", "assets/pebble.png", "assets/pebble.png"],
+    },
     ]
 
 # Function to get social links
@@ -54,6 +66,8 @@ def get_social_links():
         {"platform": "Medium", "url": "https://medium.com/@rsinghal757"},
         {"platform": "Writing", "url": "/blogs"},
     ]
+
+### Routes ###
 
 # Blog posts list
 @rt("/blogs")
@@ -97,7 +111,7 @@ def get(filename: str):
     body_content = Div(
         H1(title, cls="text-5xl font-bold mb-6 leading-tight"),
         P(date, cls="text-gray-500 text-lg italic mb-8"),
-        Div(html_content, cls="prose prose-lg max-w-3xl leading-relaxed"),
+        Div(html_content, cls="prose prose-lg max-w-7xl leading-relaxed"),
         cls="max-w-7xl w-full leading-relaxed"
     )
     return base_template(title, body_content)
@@ -130,18 +144,25 @@ def get():
             cls="flex justify-between items-center mb-12"
         ),
         Div(
-            H2("What I'm working on", cls="text-4xl font-semibold mb-8 text-left"),
+            H2("What I'm working on", cls="text-3xl font-medium mb-8 border-b pb-8 text-left"),
             *[Div(
-                H3(project["title"], cls="text-2xl font-medium"),
-                P(project["description"], cls="text-gray-700 text-lg"),
                 Div(
-                    *[Img(src=image, cls="h-48 w-auto inline-block mx-1") for image in project["images"]],
-                    cls="flex items-center space-x-4 overflow-x-auto"
+                    Div(
+                        H3(project["title"], cls="text-2xl font-medium"),
+                        P(project["description"], cls="text-gray-700 text-lg"),
+                        cls="flex flex-col items-left"
+                    ),
+                    A("View Project →", href=project["link"], cls="text-gray-600 hover:underline text-lg"),
+                    cls="mb-8 flex flex-row items-stretch w-full justify-between"
                 ),
-                A("View Project →", href=project["link"], cls="text-gray-600 hover:underline text-lg"),
-                cls="mb-8 border-b pb-8"
+                Slider(
+                    *[Img(src=image, cls="w-96 h-96 object-cover rounded-xl") for image in project["images"]],
+                    cls="mt-6 mb-6 w-100 flex flex-row items-stretch justify-between",
+                    items_cls="flex flex-row space-x-2",
+                ),
+                cls="mb-8 border-b pb-8 flex flex-col items-left justify-between"
             ) for project in projects],
-            cls="mb-12"
+            cls="mb-24"
         ),
         cls="max-w-7xl w-full leading-relaxed"
     )
